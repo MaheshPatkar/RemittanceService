@@ -10,13 +10,19 @@ namespace Remittance_Provider.DAL
 {
     public class BankDAL : IBankDAL
     {
+
+        private RemittanceContext dbContext { get; set; }
+        public BankDAL(RemittanceContext remittanceContext)
+        {
+            dbContext = remittanceContext;
+        }
+
         public async Task<List<BankReadDto>> GetBanksByCountryCodeAsync(string countryCode)
         {
             try
             {
                 List<BankReadDto> bankReadDtos = new List<BankReadDto>();
-                using (var dbContext = new RemittanceContext())
-                {
+
                     var banks = await dbContext.Bank.Where(x => x.CountryCode == countryCode).ToListAsync();
 
                     foreach (var bank in banks)
@@ -24,7 +30,6 @@ namespace Remittance_Provider.DAL
                         bankReadDtos.Add(new BankReadDto { code = bank.Code, name = bank.Name });
                     }
                     return bankReadDtos;
-                }
             }
             catch
             {

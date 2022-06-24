@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 
 namespace Remittance_Provider.Controllers
@@ -7,12 +8,19 @@ namespace Remittance_Provider.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private IConfiguration _configuration { get; }
+        public UserController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
+
         [HttpGet("{user}")]
         public IActionResult GetAuthToken(string user)
         {
             try
             {
-                var token =  CommonHelper.GenerateJWTToken(user);
+                var token =  CommonHelper.GenerateJWTToken(user, _configuration);
                 return Ok(token);
             }
             catch

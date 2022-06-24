@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -8,13 +9,16 @@ namespace Remittance_Provider.Models
 {
     public partial class RemittanceContext : DbContext
     {
-        public RemittanceContext()
+        public IConfiguration Configuration { get; }
+        public RemittanceContext(IConfiguration configuration)
         {
+            Configuration = configuration;
         }
 
         public RemittanceContext(DbContextOptions<RemittanceContext> options)
             : base(options)
         {
+            
         }
 
         public virtual DbSet<Accounts> Accounts { get; set; }
@@ -29,7 +33,7 @@ namespace Remittance_Provider.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=(local);Initial Catalog=Remittance;Integrated Security=True");
+                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("conn1"));
             }
         }
 

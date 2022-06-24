@@ -9,16 +9,19 @@ namespace Remittance_Provider.DAL
 {
     public class BeneficiaryDAL : IBeneficiaryDAL
     {
+        private RemittanceContext dbContext { get; set; }
+        public BeneficiaryDAL(RemittanceContext remittanceContext)
+        {
+            dbContext = remittanceContext;
+        }
+
         public async Task<string> GetBeneficiaryAsync(BeneficiaryParams beneficiaryParams)
         {
             try
             {
-                using (var dbContext = new RemittanceContext())
-                {
                     var account = await dbContext.Accounts.FirstOrDefaultAsync(x => x.AccountNumber == beneficiaryParams.accountNumber && x.BankCode == beneficiaryParams.bankCode);
 
                     return account.BeneficiaryName;
-                }
             }
             catch (Exception)
             {
