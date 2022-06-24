@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Remittance_Provider.DAL;
 using Remittance_Provider.IDAL;
+using Remittance_Provider.Models;
 using System.Text;
 
 namespace Remittance_Provider
@@ -30,9 +31,9 @@ namespace Remittance_Provider
             {
                 options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
-                    Title = "Place Info Service API",
+                    Title = "Remittance API",
                     Version = "v1",
-                    Description = "Sample service for Learner",
+                    Description = "Simple Remittance API",
                 });
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
@@ -69,10 +70,10 @@ namespace Remittance_Provider
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = "Mahesh",
-                        ValidAudience = "Mahesh",
+                        ValidIssuer = Configuration.GetValue<string>("Issuer"),//  "Mahesh",
+                        ValidAudience = Configuration.GetValue<string>("Audience"), //"Mahesh",
                         IssuerSigningKey = new
-                        SymmetricSecurityKey(Encoding.UTF8.GetBytes("Mahesh@1994@1994@1994"))
+                        SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("key")))
                     };
                 });
         }
@@ -86,6 +87,7 @@ namespace Remittance_Provider
             services.AddSingleton<IBeneficiaryDAL, BeneficiaryDAL>();
             services.AddSingleton<IFeesDAL, FeesDAL>();
             services.AddSingleton<ITransactionDAL, TransactionDAL>();
+            services.AddSingleton<RemittanceContext, RemittanceContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -10,21 +10,24 @@ namespace Remittance_Provider.DAL
 {
     public class StatesDAL : IStatesDAL
     {
+
+        private RemittanceContext dbContext { get; set; }
+        public StatesDAL(RemittanceContext remittanceContext)
+        {
+            dbContext = remittanceContext;
+        }
         public async Task<List<StatesReadDto>> GetStatesAsync()
         {
             List<StatesReadDto> states = new List<StatesReadDto>();
             try
             {
-                using (var context = new RemittanceContext())
-                {
-                    var lststates = await context.States.ToListAsync();
+                    var lststates = await dbContext.States.ToListAsync();
 
                     foreach (var state in lststates)
                     {
                         states.Add(
                             new StatesReadDto { code = state.Code, name = state.Name });
                     }
-                }
                 return states;
             }
             catch (Exception)

@@ -9,12 +9,16 @@ namespace Remittance_Provider.DAL
 {
     public class TransactionDAL : ITransactionDAL
     {
+        private RemittanceContext dbContext { get; set; }
+        public TransactionDAL(RemittanceContext remittanceContext)
+        {
+            dbContext = remittanceContext;
+        }
         public async Task<TransactionResponse> SubmitTransactionAsync(TransactionParams transactionParams)
         {
             try
             {
-                using (var dbContext = new RemittanceContext())
-                {
+
                     Transactions transaction = new Transactions
                     {
                         FromAmount = transactionParams.FromAmount,
@@ -63,7 +67,6 @@ namespace Remittance_Provider.DAL
                     };
                     return transactionResponse;
                 }
-            }
             catch (Exception)
             {
                 throw;
@@ -74,9 +77,7 @@ namespace Remittance_Provider.DAL
         {
             try
             {
-                using (var context = new RemittanceContext())
-                {
-                    var transaction = await context.Transactions.FirstOrDefaultAsync(x => x.Id == transactionId);
+                    var transaction = await dbContext.Transactions.FirstOrDefaultAsync(x => x.Id == transactionId);
 
                     var response = new TransactionReadResponse
                     {
@@ -84,7 +85,6 @@ namespace Remittance_Provider.DAL
                         responseStatus = transaction.Status == (int)ResponseStatus.CREATED ? "Pending" : "Completed"
                     };
                     return response;
-                }
             }
             catch (Exception)
             {

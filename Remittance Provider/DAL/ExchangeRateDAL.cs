@@ -9,14 +9,21 @@ namespace Remittance_Provider.DAL
 {
     public class ExchangeRateDAL : IExchangeRateDAL
     {
+        private RemittanceContext dbContext { get; set; }
+        public ExchangeRateDAL(RemittanceContext remittanceContext)
+        {
+            dbContext = remittanceContext;
+        }
+
+
+
         public async Task<ExchangeRateReadDto> GetExchangeRateAsync(ExchangeRateParams exchangeRateParams)
         {
             try
             {
                 exchangeRateParams.from = string.IsNullOrWhiteSpace(exchangeRateParams.from)? "US": exchangeRateParams.from;
 
-                using (var dbContext = new RemittanceContext())
-                {
+
                     var exchangeRate = await dbContext.ExchangeRate.FirstOrDefaultAsync(x => x.SourceCountry == exchangeRateParams.from && x.DestinationCountry == exchangeRateParams.to);
 
 
@@ -32,7 +39,6 @@ namespace Remittance_Provider.DAL
                         return exchangeRateReadDto;
                     }
                     return null;
-                }
             }
             catch (Exception)
             {
