@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32602.291
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemittanceService", "Remittance Provider\RemittanceService.csproj", "{11EA47CF-9CDB-4868-9DBC-31B8CC9CAA8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemittanceService.Tests", "RemittanceService.Tests\RemittanceService.Tests.csproj", "{E157B3C6-3164-43F2-8F13-AE496376FD70}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{11EA47CF-9CDB-4868-9DBC-31B8CC9CAA8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11EA47CF-9CDB-4868-9DBC-31B8CC9CAA8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11EA47CF-9CDB-4868-9DBC-31B8CC9CAA8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11EA47CF-9CDB-4868-9DBC-31B8CC9CAA8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E157B3C6-3164-43F2-8F13-AE496376FD70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E157B3C6-3164-43F2-8F13-AE496376FD70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E157B3C6-3164-43F2-8F13-AE496376FD70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E157B3C6-3164-43F2-8F13-AE496376FD70}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {594FAA4F-08E8-4EB1-963B-BB3808248197}
+	EndGlobalSection
+EndGlobal
