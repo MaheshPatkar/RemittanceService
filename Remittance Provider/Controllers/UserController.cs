@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using System.Threading.Tasks;
 
 namespace Remittance_Provider.Controllers
 {
@@ -20,7 +19,7 @@ namespace Remittance_Provider.Controllers
         {
             try
             {
-                var token =  CommonHelper.GenerateJWTToken(user, _configuration);
+                var token = CommonHelper.GenerateJWTToken(user, _configuration);
                 return Ok(token);
             }
             catch

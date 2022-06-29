@@ -4,7 +4,6 @@ using Moq;
 using Remittance_Provider.Controllers;
 using Remittance_Provider.Dtos;
 using Remittance_Provider.IDAL;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
@@ -41,7 +40,7 @@ namespace RemittanceService.Tests
             ObjectResult result = (Microsoft.AspNetCore.Mvc.ObjectResult)response;
 
             //Assert
-            Assert.Equal(result.StatusCode,StatusCodes.Status200OK);
+            Assert.Equal(result.StatusCode, StatusCodes.Status200OK);
             Assert.NotNull(result.Value);
         }
     }

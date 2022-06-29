@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using Remittance_Provider.DAL;
 using Remittance_Provider.IDAL;
 using Remittance_Provider.Models;
+using System;
 using System.Text;
 
 namespace Remittance_Provider
@@ -25,6 +26,7 @@ namespace Remittance_Provider
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllers();
             RegisterServices(services);
             services.AddSwaggerGen(options =>
@@ -80,14 +82,14 @@ namespace Remittance_Provider
 
         private void RegisterServices(IServiceCollection services)
         {
-            services.AddSingleton<ICountriesDAL, CountriesDAL>();
-            services.AddSingleton<IStatesDAL, StatesDAL>();
-            services.AddSingleton<IExchangeRateDAL, ExchangeRateDAL>();
-            services.AddSingleton<IBankDAL, BankDAL>();
-            services.AddSingleton<IBeneficiaryDAL, BeneficiaryDAL>();
-            services.AddSingleton<IFeesDAL, FeesDAL>();
-            services.AddSingleton<ITransactionDAL, TransactionDAL>();
-            services.AddSingleton<RemittanceContext, RemittanceContext>();
+            services.AddScoped<ICountriesDAL, CountriesDAL>();
+            services.AddScoped<IStatesDAL, StatesDAL>();
+            services.AddScoped<IExchangeRateDAL, ExchangeRateDAL>();
+            services.AddScoped<IBankDAL, BankDAL>();
+            services.AddScoped<IBeneficiaryDAL, BeneficiaryDAL>();
+            services.AddScoped<IFeesDAL, FeesDAL>();
+            services.AddScoped<ITransactionDAL, TransactionDAL>();
+            services.AddScoped<RemittanceContext, RemittanceContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

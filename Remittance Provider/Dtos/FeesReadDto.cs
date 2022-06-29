@@ -2,7 +2,7 @@
 {
     public class FeesReadDto
     {
-        public int? amount { get; set; }
-        public decimal? fee { get; set; }
+        public string amount { get; set; }
+        public string fee { get; set; }
     }
 }

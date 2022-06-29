@@ -6,8 +6,8 @@
 
         public string destinationCountry { get; set; }
 
-        public decimal exchangeRate { get; set; }
+        public string exchangeRate { get; set; }
 
-        public int exchangeRateToken { get; set; }
+        public string exchangeRateToken { get; set; }
     }
 }

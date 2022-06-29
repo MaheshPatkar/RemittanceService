@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
@@ -32,9 +33,5 @@ namespace Remittance_Provider.Models
         public string TransactionNumber { get; set; }
         public string FromCurrency { get; set; }
         public int? Status { get; set; }
-
-        public virtual States SendFromStateNavigation { get; set; }
-        public virtual Countries SenderCountryNavigation { get; set; }
-        public virtual Countries ToCountryNavigation { get; set; }
     }
 }

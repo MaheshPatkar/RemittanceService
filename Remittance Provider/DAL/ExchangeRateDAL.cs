@@ -15,30 +15,35 @@ namespace Remittance_Provider.DAL
             dbContext = remittanceContext;
         }
 
-
-
         public async Task<ExchangeRateReadDto> GetExchangeRateAsync(ExchangeRateParams exchangeRateParams)
         {
             try
             {
-                exchangeRateParams.from = string.IsNullOrWhiteSpace(exchangeRateParams.from)? "US": exchangeRateParams.from;
+                ExchangeRate exchangeRate = null;
+                bool isreversed = false;
 
+                if (exchangeRateParams.from == "US")
+                {
+                    exchangeRate = await dbContext.ExchangeRate.FirstOrDefaultAsync(x => x.SourceCountry == exchangeRateParams.from && x.DestinationCountry == exchangeRateParams.to);
+                }
+                else if (exchangeRateParams.to == "US")
+                {
+                    isreversed = true;
+                    exchangeRate = await dbContext.ExchangeRate.FirstOrDefaultAsync(x => x.SourceCountry == exchangeRateParams.to && x.DestinationCountry == exchangeRateParams.from);
+                }
 
-                    var exchangeRate = await dbContext.ExchangeRate.FirstOrDefaultAsync(x => x.SourceCountry == exchangeRateParams.from && x.DestinationCountry == exchangeRateParams.to);
-
-
-                    if (exchangeRate != null)
+                if (exchangeRate != null)
+                {
+                    ExchangeRateReadDto exchangeRateReadDto = new ExchangeRateReadDto
                     {
-                        ExchangeRateReadDto exchangeRateReadDto = new ExchangeRateReadDto
-                        {
-                            sourceCountry = exchangeRate.SourceCountry,
-                            destinationCountry = exchangeRate.DestinationCountry,
-                            exchangeRate = exchangeRate.ExchangeRate1,
-                            exchangeRateToken = exchangeRate.ExchangeRateToken
-                        };
-                        return exchangeRateReadDto;
-                    }
-                    return null;
+                        sourceCountry = exchangeRateParams.from,
+                        destinationCountry = exchangeRateParams.to,
+                        exchangeRate = isreversed ? Math.Round(1 / exchangeRate.ExchangeRate1, 3).ToString() : exchangeRate.ExchangeRate1.ToString(),
+                        exchangeRateToken = Guid.NewGuid().ToString()
+                    };
+                    return exchangeRateReadDto;
+                }
+                return null;
             }
             catch (Exception)
             {

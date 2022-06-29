@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Remittance_Provider.Dtos;
 using Remittance_Provider.IDAL;
 using Remittance_Provider.Models;
@@ -12,24 +13,20 @@ namespace Remittance_Provider.DAL
     {
 
         private RemittanceContext dbContext { get; set; }
-        public BankDAL(RemittanceContext remittanceContext)
+        private IMapper _mapper;
+        public BankDAL(RemittanceContext remittanceContext, IMapper mapper)
         {
             dbContext = remittanceContext;
+            _mapper = mapper;
         }
 
         public async Task<List<BankReadDto>> GetBanksByCountryCodeAsync(string countryCode)
         {
             try
             {
-                List<BankReadDto> bankReadDtos = new List<BankReadDto>();
-
-                    var banks = await dbContext.Bank.Where(x => x.CountryCode == countryCode).ToListAsync();
-
-                    foreach (var bank in banks)
-                    {
-                        bankReadDtos.Add(new BankReadDto { code = bank.Code, name = bank.Name });
-                    }
-                    return bankReadDtos;
+                var banks = await dbContext.Bank.Where(x => x.CountryCode == countryCode).ToListAsync();
+                IEnumerable<BankReadDto> bankReadDtos = _mapper.Map<IEnumerable<BankReadDto>>(banks);
+                return bankReadDtos.ToList();
             }
             catch
             {

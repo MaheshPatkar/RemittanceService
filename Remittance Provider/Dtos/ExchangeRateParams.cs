@@ -1,10 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Remittance_Provider.Dtos
 {
     public class ExchangeRateParams
     {
-        public string from { get; set; }
+        [DefaultValue("US")]
+        private string _from;
+
+        public string from
+        {
+            get { return _from == null ? "US" : _from; }
+            set { _from = value; }
+        }
+
         [Required]
         public string to { get; set; }
     }

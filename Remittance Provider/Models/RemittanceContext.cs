@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
@@ -9,16 +11,15 @@ namespace Remittance_Provider.Models
 {
     public partial class RemittanceContext : DbContext
     {
-        public IConfiguration Configuration { get; }
+        IConfiguration _configuration;
         public RemittanceContext(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
         public RemittanceContext(DbContextOptions<RemittanceContext> options)
             : base(options)
         {
-            
         }
 
         public virtual DbSet<Accounts> Accounts { get; set; }
@@ -33,7 +34,7 @@ namespace Remittance_Provider.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("conn1"));
+                optionsBuilder.UseSqlServer(_configuration.GetConnectionString("conn1")) ;
             }
         }
 
@@ -41,11 +42,10 @@ namespace Remittance_Provider.Models
         {
             modelBuilder.Entity<Accounts>(entity =>
             {
-                entity.HasKey(e => e.AccountNumber)
-                    .HasName("PK__Accounts__BE2ACD6EA50806D6");
+                entity.HasKey(e => new { e.AccountNumber, e.BankCode })
+                    .HasName("PK__Accounts__C7102D21E5C0619C");
 
                 entity.Property(e => e.BankCode)
-                    .IsRequired()
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
@@ -58,14 +58,18 @@ namespace Remittance_Provider.Models
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.BankCodeNavigation)
+                    .WithMany(p => p.Accounts)
+                    .HasForeignKey(d => d.BankCode)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Accounts__BankCo__0C85DE4D");
             });
 
             modelBuilder.Entity<Bank>(entity =>
             {
-                entity.HasKey(e => new { e.Id, e.Code })
-                    .HasName("PK__Bank__483129AD4D806EF7");
-
-                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+                entity.HasKey(e => e.Code)
+                    .HasName("PK__Bank__A25C5AA63BC22D13");
 
                 entity.Property(e => e.Code)
                     .HasMaxLength(10)
@@ -77,6 +81,8 @@ namespace Remittance_Provider.Models
                     .IsUnicode(false)
                     .IsFixedLength();
 
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .IsUnicode(false);
@@ -85,7 +91,7 @@ namespace Remittance_Provider.Models
                     .WithMany(p => p.Bank)
                     .HasForeignKey(d => d.CountryCode)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Bank__CountryCod__4316F928");
+                    .HasConstraintName("FK__Bank__CountryCod__09A971A2");
             });
 
             modelBuilder.Entity<Countries>(entity =>
@@ -132,12 +138,12 @@ namespace Remittance_Provider.Models
 
             modelBuilder.Entity<Fees>(entity =>
             {
+                entity.Property(e => e.BaseRate).HasColumnType("decimal(16, 6)");
+
                 entity.Property(e => e.DestinationCountry)
                     .HasMaxLength(2)
                     .IsUnicode(false)
                     .IsFixedLength();
-
-                entity.Property(e => e.Rate).HasColumnType("decimal(2, 2)");
 
                 entity.Property(e => e.SourceCountry)
                     .HasMaxLength(2)
@@ -172,7 +178,12 @@ namespace Remittance_Provider.Models
 
             modelBuilder.Entity<Transactions>(entity =>
             {
-                entity.Property(e => e.Id).HasDefaultValueSql("(newid())");
+                entity.HasKey(e => e.TransactionNumber)
+                    .HasName("PK__Transact__E733A2BEA6EED04D");
+
+                entity.Property(e => e.TransactionNumber)
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
 
@@ -268,29 +279,6 @@ namespace Remittance_Provider.Models
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false);
-
-                entity.Property(e => e.TransactionNumber)
-                    .IsRequired()
-                    .HasMaxLength(25)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.SendFromStateNavigation)
-                    .WithMany(p => p.Transactions)
-                    .HasForeignKey(d => d.SendFromState)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Transacti__SendF__66603565");
-
-                entity.HasOne(d => d.SenderCountryNavigation)
-                    .WithMany(p => p.TransactionsSenderCountryNavigation)
-                    .HasForeignKey(d => d.SenderCountry)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Transacti__Sende__656C112C");
-
-                entity.HasOne(d => d.ToCountryNavigation)
-                    .WithMany(p => p.TransactionsToCountryNavigation)
-                    .HasForeignKey(d => d.ToCountry)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Transacti__ToCou__6754599E");
             });
 
             OnModelCreatingPartial(modelBuilder);

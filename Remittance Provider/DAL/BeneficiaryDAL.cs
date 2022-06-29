@@ -19,9 +19,12 @@ namespace Remittance_Provider.DAL
         {
             try
             {
-                    var account = await dbContext.Accounts.FirstOrDefaultAsync(x => x.AccountNumber == beneficiaryParams.accountNumber && x.BankCode == beneficiaryParams.bankCode);
+                var account = await dbContext.Accounts.FirstOrDefaultAsync(x => x.AccountNumber == beneficiaryParams.accountNumber && x.BankCode == beneficiaryParams.bankCode);
 
-                    return account.BeneficiaryName;
+                if (account == null)
+                    return string.Empty;
+
+                return account.BeneficiaryName;
             }
             catch (Exception)
             {

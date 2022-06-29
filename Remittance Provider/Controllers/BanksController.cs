@@ -27,11 +27,11 @@ namespace Remittance_Provider.Controllers
                 {
                     return Ok(banks);
                 }
-                return NotFound();
+                return NotFound("No Records Found");
             }
             catch
             {
-                return StatusCode(500, "Something Went Wrong");
+                return StatusCode((int)ResponseStatus.SERVICE_UNAVAILABLE, ResponseStatus.SERVICE_UNAVAILABLE.ToString());
             }
         }
 

@@ -1,54 +1,86 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Remittance_Provider.Dtos
 {
-    
+
     public class TransactionParams
     {
         [Required]
         public string SenderFirstName { get; set; }
+
         [Required]
         public string SenderLastName { get; set; }
+
         [Required]
         public string SenderEmail { get; set; }
+
         [Required]
         public string SenderPhone { get; set; }
+
         [Required]
         public string SenderAddress { get; set; }
+
+
         [Required]
+        [StringLength(2)]
         public string SenderCountry { get; set; }
-        [Required] 
+
+        [Required]
         public string SenderCity { get; set; }
-        [Required] 
+
+        [Required]
+        [StringLength(2)]
         public string SendFromState { get; set; }
-        [Required] 
+
+        [Required]
         public string SenderPostalCode { get; set; }
-        [Required] 
+
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime DateOfBirth { get; set; }
-        [Required] 
+
+        [Required]
         public string ToFirstName { get; set; }
-        [Required] 
+
+        [Required]
         public string ToLastName { get; set; }
-        [Required] 
+
+        [Required]
+        [StringLength(2)]
         public string ToCountry { get; set; }
-        [Required] 
+
+        [Required]
         public string ToBankAccountName { get; set; }
-        [Required] 
+
+        [Required]
         public string ToBankAccountNumber { get; set; }
-        [Required] 
+
+        [Required]
         public string ToBankName { get; set; }
-        [Required] 
+
+        [Required]
         public string ToBankCode { get; set; }
-        [Required] 
+
+        [Required]
         public decimal FromAmount { get; set; }
-        [Required] 
+
+        [Required]
         public decimal ExchangeRate { get; set; }
-        [Required] 
+
+        [Required]
+        [DefaultValue(0)]
         public decimal Fees { get; set; }
-        [Required] 
+
+        [Required]
+        [MinLength(10)]
+        [MaxLength(25)]
         public string TransactionNumber { get; set; }
-        [Required] 
+
+        [Required]
+        [StringLength(3)]
         public string FromCurrency { get; set; }
     }
 }

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RemittanceService.Tests
+﻿namespace RemittanceService.Tests
 {
-    class UserController_Tests
+    internal class UserController_Tests
     {
     }
 }

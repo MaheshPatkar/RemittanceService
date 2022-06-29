@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Remittance_Provider.Dtos;
 using Remittance_Provider.IDAL;
 using System;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Remittance_Provider.Controllers
@@ -30,22 +30,28 @@ namespace Remittance_Provider.Controllers
 
                 if (transactionResponse.responseStatus == (int)ResponseStatus.CREATED)
                 {
-                    return Created("", transactionResponse.transactionId);
+                    return StatusCode((int)ResponseStatus.CREATED, transactionResponse.transactionId);
                 }
-                else
-                {
-                    return Ok(transactionResponse.transactionId);
-                }
+                return Ok(transactionResponse.transactionId);
             }
-            catch
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException ex)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError);
+                if (ex.InnerException.Message.Contains("Violation of PRIMARY KEY constraint"))
+                {
+                    return BadRequest("Transaction number must be unique");
+                }
+                else throw;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)ResponseStatus.SERVICE_UNAVAILABLE, ResponseStatus.SERVICE_UNAVAILABLE.ToString());
             }
         }
 
-        [Route("get-transaction-status")]
+        
+        [Route("get-transaction-status/{transactionId}")]
         [HttpGet]
-        public async Task<IActionResult> Get(Guid transactionId)
+        public async Task<IActionResult> Get(string transactionId)
         {
             try
             {
@@ -56,11 +62,11 @@ namespace Remittance_Provider.Controllers
                     return Ok(transactionResponse);
                 }
 
-                return NotFound();
+                return NotFound("No Records Found");
             }
             catch (Exception)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError);
+                return StatusCode((int)ResponseStatus.SERVICE_UNAVAILABLE, ResponseStatus.SERVICE_UNAVAILABLE.ToString());
             }
         }
     }

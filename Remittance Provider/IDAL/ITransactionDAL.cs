@@ -1,5 +1,4 @@
 ﻿using Remittance_Provider.Dtos;
-using System;
 using System.Threading.Tasks;
 
 namespace Remittance_Provider.IDAL
@@ -8,7 +7,7 @@ namespace Remittance_Provider.IDAL
     {
 
         Task<TransactionResponse> SubmitTransactionAsync(TransactionParams transactionParams);
-        Task<TransactionReadResponse> GetTransactionAsync(Guid transactionId);
+        Task<TransactionReadResponse> GetTransactionAsync(string transactionId);
 
     }
 }

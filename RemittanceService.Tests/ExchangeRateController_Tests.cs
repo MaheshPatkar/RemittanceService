@@ -5,8 +5,6 @@ using Remittance_Provider.Controllers;
 using Remittance_Provider.Dtos;
 using Remittance_Provider.IDAL;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -26,8 +24,8 @@ namespace RemittanceService.Tests
             {
                 destinationCountry = "US",
                 sourceCountry = "US",
-                exchangeRate = 1,
-                exchangeRateToken = 100
+                exchangeRate = "1",
+                exchangeRateToken = Guid.NewGuid().ToString()
             };
 
             exchangeRateDal.Setup(x => x.GetExchangeRateAsync(exchangeRate)).ReturnsAsync(exchangeRateReadDto);

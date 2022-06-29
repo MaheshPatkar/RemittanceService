@@ -1,4 +1,7 @@
-﻿// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+﻿using System;
+using System.Collections.Generic;
+
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
 // #nullable disable
 
@@ -10,5 +13,7 @@ namespace Remittance_Provider.Models
         public string Name { get; set; }
         public string BankCode { get; set; }
         public string BeneficiaryName { get; set; }
+
+        public virtual Bank BankCodeNavigation { get; set; }
     }
 }

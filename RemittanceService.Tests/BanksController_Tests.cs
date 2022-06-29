@@ -4,16 +4,13 @@ using Moq;
 using Remittance_Provider.Controllers;
 using Remittance_Provider.Dtos;
 using Remittance_Provider.IDAL;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace RemittanceService.Tests
 {
-   public class BanksController_Tests
+    public class BanksController_Tests
     {
         [Fact]
         public async Task Get_Test()
