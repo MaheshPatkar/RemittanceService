@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using Remittance_Provider.Dtos;
 using Remittance_Provider.IDAL;
 using System;
@@ -42,13 +41,13 @@ namespace Remittance_Provider.Controllers
                 }
                 else throw;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode((int)ResponseStatus.SERVICE_UNAVAILABLE, ResponseStatus.SERVICE_UNAVAILABLE.ToString());
             }
         }
 
-        
+
         [Route("get-transaction-status/{transactionId}")]
         [HttpGet]
         public async Task<IActionResult> Get(string transactionId)

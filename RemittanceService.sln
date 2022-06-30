@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.32602.291
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemittanceService", "Remittance Provider\RemittanceService.csproj", "{11EA47CF-9CDB-4868-9DBC-31B8CC9CAA8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemittanceService.Tests", "RemittanceService.Tests\RemittanceService.Tests.csproj", "{E157B3C6-3164-43F2-8F13-AE496376FD70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemittanceService.Tests", "RemittanceService.Tests\RemittanceService.Tests.csproj", "{E157B3C6-3164-43F2-8F13-AE496376FD70}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

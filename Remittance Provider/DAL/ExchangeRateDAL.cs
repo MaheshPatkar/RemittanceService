@@ -31,6 +31,16 @@ namespace Remittance_Provider.DAL
                     isreversed = true;
                     exchangeRate = await dbContext.ExchangeRate.FirstOrDefaultAsync(x => x.SourceCountry == exchangeRateParams.to && x.DestinationCountry == exchangeRateParams.from);
                 }
+                else
+                {
+                    var sourceexchangeRate = await dbContext.ExchangeRate.FirstOrDefaultAsync(x => x.SourceCountry == "US" && x.DestinationCountry == exchangeRateParams.from);
+
+                    var targetexchangeRate = await dbContext.ExchangeRate.FirstOrDefaultAsync(x => x.SourceCountry == "US" && x.DestinationCountry == exchangeRateParams.to);
+
+                    if (sourceexchangeRate != null && targetexchangeRate != null)
+                        exchangeRate = new ExchangeRate
+                        { ExchangeRate1 = Math.Round((1 / sourceexchangeRate.ExchangeRate1) * targetexchangeRate.ExchangeRate1, 3) };
+                }
 
                 if (exchangeRate != null)
                 {
