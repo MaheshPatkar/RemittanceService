@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
@@ -11,7 +9,7 @@ namespace Remittance_Provider.Models
 {
     public partial class RemittanceContext : DbContext
     {
-        IConfiguration _configuration;
+        private IConfiguration _configuration;
         public RemittanceContext(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -34,7 +32,7 @@ namespace Remittance_Provider.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(_configuration.GetConnectionString("conn1")) ;
+                optionsBuilder.UseSqlServer(_configuration.GetConnectionString("conn1"));
             }
         }
 

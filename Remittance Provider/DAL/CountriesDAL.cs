@@ -27,9 +27,9 @@ namespace Remittance_Provider.DAL
             {
                 var lstcountries = await dbContext.Countries.ToListAsync();
                 IEnumerable<CountryReadDto> countries = _mapper.Map<IEnumerable<CountryReadDto>>(lstcountries);
-                return countries.ToList()  ;
+                return countries.ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

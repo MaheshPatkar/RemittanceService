@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Remittance_Provider.Dtos;
 using Remittance_Provider.IDAL;
 using Remittance_Provider.Models;
@@ -70,7 +69,7 @@ namespace Remittance_Provider.DAL
                 };
                 return transactionResponse;
             }
-            catch (Exception )
+            catch (Exception)
             {
                 throw;
             }
@@ -82,13 +81,13 @@ namespace Remittance_Provider.DAL
             {
 
                 Guid transactionIdGuid;
-                Guid.TryParse(transactionId,out transactionIdGuid);
+                Guid.TryParse(transactionId, out transactionIdGuid);
 
                 int? status;
                 if (transactionIdGuid == Guid.Empty)
                 {
 
-                    var transaction = await dbContext.Transactions.FirstOrDefaultAsync(x => x.TransactionNumber ==transactionId);
+                    var transaction = await dbContext.Transactions.FirstOrDefaultAsync(x => x.TransactionNumber == transactionId);
                     transactionIdGuid = transaction.Id;
                     status = transaction.Status;
                 }
