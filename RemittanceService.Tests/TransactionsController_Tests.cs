@@ -14,14 +14,16 @@ namespace RemittanceService.Tests
     public class TransactionsController_Tests
     {
         private Mock<ITransactionDAL> _transactionDAL { get; set; }
+        private Mock<ICountriesDAL> _countriesDAL { get; set; }
         private TransactionParams transactionParams { get; set; }
         private TransactionResponse transactionResponse { get; set; }
         private TransactionsController controller { get; set; }
         public TransactionsController_Tests()
         {
             _transactionDAL = new Mock<ITransactionDAL>();
+            _countriesDAL = new Mock<ICountriesDAL>();
             transactionParams = new TransactionParams();
-            controller = new TransactionsController(_transactionDAL.Object);
+            controller = new TransactionsController(_transactionDAL.Object, _countriesDAL.Object);
         }
 
 
@@ -33,6 +35,7 @@ namespace RemittanceService.Tests
             transactionResponse = new TransactionResponse { responseStatus = 200, transactionId = Guid.NewGuid() };
             _transactionDAL.Setup(x => x.SubmitTransactionAsync(transactionParams)).ReturnsAsync(transactionResponse);
 
+            _countriesDAL.Setup(x => x.isValidCountryAsync(It.IsAny<string>())).ReturnsAsync(true);
             //Action
 
             var response = await controller.Post(transactionParams);
@@ -49,9 +52,9 @@ namespace RemittanceService.Tests
             //Arrange
             transactionResponse = new TransactionResponse { responseStatus = 201, transactionId = Guid.NewGuid() };
             _transactionDAL.Setup(x => x.SubmitTransactionAsync(transactionParams)).ReturnsAsync(transactionResponse);
-
+            _countriesDAL.Setup(x => x.isValidCountryAsync(It.IsAny<string>())).ReturnsAsync(true);
             //Action
-            TransactionsController controller = new TransactionsController(_transactionDAL.Object);
+            TransactionsController controller = new TransactionsController(_transactionDAL.Object,_countriesDAL.Object);
             var response = await controller.Post(transactionParams);
             ObjectResult result = (ObjectResult)response;
 
@@ -73,7 +76,7 @@ namespace RemittanceService.Tests
             _transactionDAL.Setup(x => x.GetTransactionAsync(It.IsAny<string>())).ReturnsAsync(testresponse);
 
             //Action
-            TransactionsController controller = new TransactionsController(_transactionDAL.Object);
+            TransactionsController controller = new TransactionsController(_transactionDAL.Object, _countriesDAL.Object);
             var response = await controller.Get(It.IsAny<string>());
             ObjectResult result = (ObjectResult)response;
             TransactionReadResponse readResponse

@@ -13,10 +13,12 @@ namespace Remittance_Provider.Controllers
     public class TransactionsController : ControllerBase
     {
         private ITransactionDAL _transactionDAL { get; set; }
+        private ICountriesDAL _countriesDAL { get; set; }
 
-        public TransactionsController(ITransactionDAL transactionDAL)
+        public TransactionsController(ITransactionDAL transactionDAL,ICountriesDAL countriesDAL)
         {
             _transactionDAL = transactionDAL;
+            _countriesDAL = countriesDAL;
         }
 
         [Route("submit-transaction")]
@@ -25,6 +27,16 @@ namespace Remittance_Provider.Controllers
         {
             try
             {
+                //custom validators
+                if(!await _countriesDAL.isValidCountryAsync(transactionParams.SenderCountry))
+                {
+                    return BadRequest("Please provide a valid Sender Country");
+                }
+
+                if (!await _countriesDAL.isValidCountryAsync(transactionParams.ToCountry))
+                {
+                    return BadRequest("Please provide a valid Reciever Country");
+                }
                 var transactionResponse = await _transactionDAL.SubmitTransactionAsync(transactionParams);
 
                 if (transactionResponse.responseStatus == (int)ResponseStatus.CREATED)
