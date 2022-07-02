@@ -4,47 +4,24 @@ using Remittance_Provider.IDAL;
 using Remittance_Provider.Models;
 using System;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Remittance_Provider.DAL
 {
     public class TransactionDAL : ITransactionDAL
     {
         private RemittanceContext dbContext { get; set; }
-        public TransactionDAL(RemittanceContext remittanceContext)
+        private IMapper _mapper { get; set; }
+        public TransactionDAL(RemittanceContext remittanceContext, IMapper mapper)
         {
             dbContext = remittanceContext;
+            _mapper = mapper;
         }
         public async Task<TransactionResponse> SubmitTransactionAsync(TransactionParams transactionParams)
         {
             try
             {
-
-                Transactions transaction = new Transactions
-                {
-                    Id = Guid.NewGuid(),
-                    FromAmount = transactionParams.FromAmount,
-                    SenderAddress = transactionParams.SenderAddress,
-                    ToBankAccountName = transactionParams.ToBankAccountName,
-                    ToBankAccountNumber = transactionParams.ToBankAccountNumber,
-                    DateOfBirth = transactionParams.DateOfBirth,
-                    ExchangeRate = transactionParams.ExchangeRate,
-                    Fees = transactionParams.Fees,
-                    FromCurrency = transactionParams.FromCurrency,
-                    SenderCity = transactionParams.SenderCity,
-                    SenderCountry = transactionParams.SenderCountry,
-                    SenderEmail = transactionParams.SenderEmail,
-                    SenderFirstName = transactionParams.SenderFirstName,
-                    SenderLastName = transactionParams.SenderLastName,
-                    SenderPhone = transactionParams.SenderPhone,
-                    SenderPostalCode = transactionParams.SenderPostalCode,
-                    SendFromState = transactionParams.SendFromState,
-                    ToBankCode = transactionParams.ToBankCode,
-                    ToBankName = transactionParams.ToBankName,
-                    ToCountry = transactionParams.ToCountry,
-                    ToFirstName = transactionParams.ToFirstName,
-                    ToLastName = transactionParams.ToLastName,
-                    TransactionNumber = transactionParams.TransactionNumber,
-                };
+                Transactions transaction = _mapper.Map<Transactions>(transactionParams);
 
                 //This is to randomly create transaction which completed or Pending
                 Random random = new Random();
@@ -58,6 +35,7 @@ namespace Remittance_Provider.DAL
                 {
                     transaction.Status = (int)ResponseStatus.CREATED;
                 }
+                transaction.Id = Guid.NewGuid();
 
                 var response = await dbContext.Transactions.AddAsync(transaction);
                 await dbContext.SaveChangesAsync();

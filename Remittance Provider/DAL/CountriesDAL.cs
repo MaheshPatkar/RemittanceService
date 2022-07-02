@@ -34,5 +34,20 @@ namespace Remittance_Provider.DAL
                 throw;
             }
         }
+
+        public async Task<bool> isValidCountryAsync(string countryCode)
+        {
+            try
+            {
+                bool doesCountryExists = await dbContext.Countries.AnyAsync(x => x.Code == countryCode);
+                return doesCountryExists;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
     }
 }

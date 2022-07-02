@@ -11,9 +11,9 @@ namespace Remittance_Provider.Profiles
             //Source --> Target
             CreateMap<Bank, BankReadDto>();
             CreateMap<Countries, CountryReadDto>();
-            CreateMap<ExchangeRate, ExchangeRateReadDto>();
             CreateMap<Fees, FeesReadDto>();
             CreateMap<States, StatesReadDto>();
+            CreateMap<TransactionParams,Transactions>();
         }
     }
 }

@@ -8,5 +8,7 @@ namespace Remittance_Provider.IDAL
     {
         Task<List<CountryReadDto>> GetCountriesAsync();
 
+        Task<bool> isValidCountryAsync(string countryCode);
+
     }
 }

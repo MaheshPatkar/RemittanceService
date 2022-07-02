@@ -72,8 +72,8 @@ namespace Remittance_Provider
                         ValidateAudience = true,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
-                        ValidIssuer = Configuration.GetValue<string>("Issuer"),//  "Mahesh",
-                        ValidAudience = Configuration.GetValue<string>("Audience"), //"Mahesh",
+                        ValidIssuer = Configuration.GetValue<string>("Issuer"),
+                        ValidAudience = Configuration.GetValue<string>("Audience"),
                         IssuerSigningKey = new
                         SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("key")))
                     };
