@@ -10,7 +10,7 @@ Use the User API inorder to generate the token to be used before calling the API
 ## Seeding the database
 
 To initialize the database, set the environment variable `DBInit` to `True` in launchSettings.json. Once the database is seeded, don't forget to set it back to `False`.
-MS SQL is used as the database and EntityFrameworkCore has been used to interact with the DB
+MS SQL is used as the database and EntityFrameworkCore has been used to interact with the DB. Currently `DBInit` is placed in the IIS section of launch settings but please add it to WebAPI section in case you plan to run it via cmd prompt.
 
 ## API Details 
 User API returns the token for the i/p user which would be required for calling all the below API's
