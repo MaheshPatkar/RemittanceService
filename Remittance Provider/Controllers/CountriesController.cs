@@ -27,11 +27,11 @@ namespace Remittance_Provider.Controllers
                 {
                     return Ok(countries);
                 }
-                return NoContent();
+                return NotFound("No Records Found");
             }
             catch
             {
-                return StatusCode((int)ResponseStatus.SERVICE_UNAVAILABLE, ResponseStatus.SERVICE_UNAVAILABLE.ToString());
+                return StatusCode((int)ResponseStatus.INTERNAL_SERVER_ERROR, Constants.ERROR_MESSAGE);
             }
         }
 

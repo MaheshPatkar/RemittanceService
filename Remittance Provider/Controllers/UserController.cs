@@ -24,7 +24,7 @@ namespace Remittance_Provider.Controllers
             }
             catch
             {
-                return StatusCode(500);
+                return StatusCode((int)ResponseStatus.INTERNAL_SERVER_ERROR, Constants.ERROR_MESSAGE);
             }
 
         }
