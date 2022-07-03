@@ -13,6 +13,7 @@ To initialize the database, set the environment variable `DBInit` to `True` in l
 MS SQL is used as the database and EntityFrameworkCore has been used to interact with the DB
 
 ## API Details 
+User API returns the token for the i/p user which would be required for calling all the below API's
 1) get-bank-list returns the list of banks for the provided country
 2) get-beneficiary-name returns the name of the beneficiary for the provided bank code and accountNumber 
 3) get-country-list returns the list all the countries
@@ -20,4 +21,3 @@ MS SQL is used as the database and EntityFrameworkCore has been used to interact
 5) get-fees-list returns list of fees for a set of amounts based on the base rate
 6) get-state-list returns list of all the states in the US
 7) submit-transaction is used to submit a transaction and get-transaction-status fetches the transaction
-8) User API returns the token for the i/p user
