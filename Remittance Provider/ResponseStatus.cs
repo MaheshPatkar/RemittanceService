@@ -8,6 +8,7 @@
         UNAUTORIZED = 401,
         FORBIDDEN = 403,
         FAILED = 440,
+        INTERNAL_SERVER_ERROR = 500,
         SERVICE_UNAVAILABLE = 503
     }
 }
