@@ -9,7 +9,7 @@ namespace Remittance_Provider
 {
     public static class CommonHelper
     {
-        public static string GenerateJWTToken(string userName, IConfiguration configuration)
+        public static string GenerateJWTToken(IConfiguration configuration)
         {
             try
             {
@@ -19,13 +19,17 @@ namespace Remittance_Provider
 
                 var claims = new[]
                 {
-                new Claim("Issuer",configuration.GetValue<string>("Issuer")),
-                new Claim("Admin","true"),
-                new Claim(JwtRegisteredClaimNames.UniqueName,userName)
-            };
+                  new Claim(ClaimTypes.Name,configuration["user:userName"]),
+                  new Claim(ClaimTypes.Email,configuration["user:email"]),
+                  new Claim(ClaimTypes.Role,configuration["user:role"])
+                };
 
-                var token = new JwtSecurityToken(configuration.GetValue<string>("Issuer"), configuration.GetValue<string>("Audience"), claims, expires: DateTime.Now.AddMinutes(120),
-                    signingCredentials: credentials);
+                var token = new JwtSecurityToken(
+                      issuer :configuration.GetValue<string>("Issuer"),
+                      audience: configuration.GetValue<string>("Audience"),
+                      claims: claims, 
+                      expires: DateTime.Now.AddMinutes(120),
+                      signingCredentials: credentials);
 
                 return new JwtSecurityTokenHandler().WriteToken(token);
             }
