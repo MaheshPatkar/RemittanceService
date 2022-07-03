@@ -13,13 +13,12 @@ namespace Remittance_Provider.Controllers
             _configuration = configuration;
         }
 
-
-        [HttpGet("{user}")]
-        public IActionResult GetAuthToken(string user)
+        [HttpGet]
+        public IActionResult GetAuthToken()
         {
             try
             {
-                var token = CommonHelper.GenerateJWTToken(user, _configuration);
+                var token = CommonHelper.GenerateJWTToken(_configuration);
                 return Ok(token);
             }
             catch
