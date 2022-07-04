@@ -54,7 +54,7 @@ namespace RemittanceService.Tests
             _transactionDAL.Setup(x => x.SubmitTransactionAsync(transactionParams)).ReturnsAsync(transactionResponse);
             _countriesDAL.Setup(x => x.isValidCountryAsync(It.IsAny<string>())).ReturnsAsync(true);
             //Action
-            TransactionsController controller = new TransactionsController(_transactionDAL.Object,_countriesDAL.Object);
+            TransactionsController controller = new TransactionsController(_transactionDAL.Object, _countriesDAL.Object);
             var response = await controller.Post(transactionParams);
             ObjectResult result = (ObjectResult)response;
 

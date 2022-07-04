@@ -17,6 +17,11 @@ namespace Remittance_Provider.DAL
             dbContext = remittanceContext;
         }
 
+        /// <summary>
+        /// Provides fees based on the base rate for the conversion
+        /// </summary>
+        /// <param name="feesParams"></param>
+        /// <returns></returns>
         public async Task<List<FeesReadDto>> GetFees(FeesParams feesParams)
         {
             try
@@ -37,6 +42,8 @@ namespace Remittance_Provider.DAL
 
                 if (fees == null)
                     return feeslist;
+
+                //This logic has been written to provide the user the rate applied for transfer for a set range of amounts so that user gets an estimate as to what fees would apply for the amount he wishes to transfer
 
                 for (int amount = 10; amount <= 100000; amount *= 10)
                 {

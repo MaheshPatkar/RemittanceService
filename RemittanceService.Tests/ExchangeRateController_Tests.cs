@@ -25,7 +25,7 @@ namespace RemittanceService.Tests
                 destinationCountry = "US",
                 sourceCountry = "US",
                 exchangeRate = "1",
-                exchangeRateToken = Guid.NewGuid().ToString()
+                exchangeRateToken = DateTime.UtcNow.ToString()
             };
 
             exchangeRateDal.Setup(x => x.GetExchangeRateAsync(exchangeRate)).ReturnsAsync(exchangeRateReadDto);

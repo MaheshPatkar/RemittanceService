@@ -13,7 +13,7 @@ namespace Remittance_Provider.Profiles
             CreateMap<Countries, CountryReadDto>();
             CreateMap<Fees, FeesReadDto>();
             CreateMap<States, StatesReadDto>();
-            CreateMap<TransactionParams,Transactions>();
+            CreateMap<TransactionParams, Transactions>();
         }
     }
 }

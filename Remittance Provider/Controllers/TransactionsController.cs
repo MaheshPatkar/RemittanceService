@@ -15,7 +15,7 @@ namespace Remittance_Provider.Controllers
         private ITransactionDAL _transactionDAL { get; set; }
         private ICountriesDAL _countriesDAL { get; set; }
 
-        public TransactionsController(ITransactionDAL transactionDAL,ICountriesDAL countriesDAL)
+        public TransactionsController(ITransactionDAL transactionDAL, ICountriesDAL countriesDAL)
         {
             _transactionDAL = transactionDAL;
             _countriesDAL = countriesDAL;
@@ -28,7 +28,7 @@ namespace Remittance_Provider.Controllers
             try
             {
                 //custom validators
-                if(!await _countriesDAL.isValidCountryAsync(transactionParams.SenderCountry))
+                if (!await _countriesDAL.isValidCountryAsync(transactionParams.SenderCountry))
                 {
                     return BadRequest("Please provide a valid Sender Country");
                 }

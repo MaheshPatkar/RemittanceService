@@ -14,7 +14,11 @@ namespace Remittance_Provider.DAL
         {
             dbContext = remittanceContext;
         }
-
+        /// <summary>
+        /// Returns the Exchange Rate
+        /// </summary>
+        /// <param name="exchangeRateParams"></param>
+        /// <returns></returns>
         public async Task<ExchangeRateReadDto> GetExchangeRateAsync(ExchangeRateParams exchangeRateParams)
         {
             try
@@ -22,7 +26,14 @@ namespace Remittance_Provider.DAL
                 ExchangeRate exchangeRate = null;
                 bool isreversed = false;
 
-                if (exchangeRateParams.from == "US")
+                //Handled all possible scenario in the code itself so that data redundancy is reduced
+                //Based on the design we can either handle these in the code or keep redundant data in Database so that 
+                //explicit logic like below is not required
+                if (exchangeRateParams.from == exchangeRateParams.to)
+                {
+                    exchangeRate = new ExchangeRate { ExchangeRate1 = 1 };
+                }
+                else if (exchangeRateParams.from == "US")
                 {
                     exchangeRate = await dbContext.ExchangeRate.FirstOrDefaultAsync(x => x.SourceCountry == exchangeRateParams.from && x.DestinationCountry == exchangeRateParams.to);
                 }
@@ -49,7 +60,8 @@ namespace Remittance_Provider.DAL
                         sourceCountry = exchangeRateParams.from,
                         destinationCountry = exchangeRateParams.to,
                         exchangeRate = isreversed ? Math.Round(1 / exchangeRate.ExchangeRate1, 3).ToString() : exchangeRate.ExchangeRate1.ToString(),
-                        exchangeRateToken = Guid.NewGuid().ToString()
+                        //Token can be stored by the client as a datetime field and based on a client specific time interval,client can use this token to identify whether it needs to refresh the exhangerate values by recalling the API.
+                        exchangeRateToken = DateTime.UtcNow.ToString()
                     };
                     return exchangeRateReadDto;
                 }
