@@ -35,9 +35,7 @@ namespace RemittanceService.Tests
 
             //Assert
             Assert.Equal(result.StatusCode, StatusCodes.Status200OK);
-
+            Assert.NotNull(result.Value);
         }
-
-
     }
 }

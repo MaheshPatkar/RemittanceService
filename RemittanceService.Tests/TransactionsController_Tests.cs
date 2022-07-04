@@ -84,6 +84,7 @@ namespace RemittanceService.Tests
 
             //Assert
             Assert.Equal(readResponse.responseStatus, Constants.COMPLETED);
+            Assert.NotNull(result.Value);
         }
 
 
