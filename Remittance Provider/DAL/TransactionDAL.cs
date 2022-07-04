@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Remittance_Provider.Dtos;
 using Remittance_Provider.IDAL;
 using Remittance_Provider.Models;
 using System;
 using System.Threading.Tasks;
-using AutoMapper;
 
 namespace Remittance_Provider.DAL
 {
@@ -17,6 +17,12 @@ namespace Remittance_Provider.DAL
             dbContext = remittanceContext;
             _mapper = mapper;
         }
+
+        /// <summary>
+        /// Save the Transaction in the database
+        /// </summary>
+        /// <param name="transactionParams"></param>
+        /// <returns></returns>
         public async Task<TransactionResponse> SubmitTransactionAsync(TransactionParams transactionParams)
         {
             try
@@ -53,6 +59,11 @@ namespace Remittance_Provider.DAL
             }
         }
 
+        /// <summary>
+        /// Fetches the Transaction on basis of the provided TransactionId
+        /// </summary>
+        /// <param name="transactionId"></param>
+        /// <returns></returns>
         public async Task<TransactionReadResponse> GetTransactionAsync(string transactionId)
         {
             try
@@ -62,12 +73,17 @@ namespace Remittance_Provider.DAL
                 Guid.TryParse(transactionId, out transactionIdGuid);
 
                 int? status;
+                //Check if the provided i/p is a valid GUID, in case of a valid guid fetch match it against the Id else match it aganst the TransactionNumber - Used to identifiy if the i/p is TransactionNumber or TransactionIdGuid
                 if (transactionIdGuid == Guid.Empty)
                 {
-
                     var transaction = await dbContext.Transactions.FirstOrDefaultAsync(x => x.TransactionNumber == transactionId);
+
+                    if (transaction == null)
+                        return new TransactionReadResponse { transactionId = Guid.Empty };
+
                     transactionIdGuid = transaction.Id;
                     status = transaction.Status;
+
                 }
                 else
                 {

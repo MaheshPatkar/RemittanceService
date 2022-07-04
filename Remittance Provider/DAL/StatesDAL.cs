@@ -20,6 +20,10 @@ namespace Remittance_Provider.DAL
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Returns all the States in the US available in the database
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<StatesReadDto>> GetStatesAsync()
         {
             try

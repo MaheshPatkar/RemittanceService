@@ -20,7 +20,10 @@ namespace Remittance_Provider.DAL
             _mapper = mapper;
         }
 
-
+        /// <summary>
+        /// Returns all the Countries from the database
+        /// </summary>
+        /// <returns></returns>
         public async Task<List<CountryReadDto>> GetCountriesAsync()
         {
             try
@@ -35,6 +38,11 @@ namespace Remittance_Provider.DAL
             }
         }
 
+        /// <summary>
+        /// Checks if supplied Country is valid
+        /// </summary>
+        /// <param name="countryCode"></param>
+        /// <returns></returns>
         public async Task<bool> isValidCountryAsync(string countryCode)
         {
             try

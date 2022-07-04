@@ -15,6 +15,11 @@ namespace Remittance_Provider.DAL
             dbContext = remittanceContext;
         }
 
+        /// <summary>
+        /// Returns beneficiaryname based on accounNumber and bankCode
+        /// </summary>
+        /// <param name="beneficiaryParams"></param>
+        /// <returns></returns>
         public async Task<string> GetBeneficiaryAsync(BeneficiaryParams beneficiaryParams)
         {
             try

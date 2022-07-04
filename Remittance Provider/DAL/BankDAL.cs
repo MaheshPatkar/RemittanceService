@@ -19,7 +19,11 @@ namespace Remittance_Provider.DAL
             dbContext = remittanceContext;
             _mapper = mapper;
         }
-
+        /// <summary>
+        /// Returns all the banks based on the countryCode provided
+        /// </summary>
+        /// <param name="countryCode"></param>
+        /// <returns></returns>
         public async Task<List<BankReadDto>> GetBanksByCountryCodeAsync(string countryCode)
         {
             try

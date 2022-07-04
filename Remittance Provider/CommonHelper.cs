@@ -25,9 +25,9 @@ namespace Remittance_Provider
                 };
 
                 var token = new JwtSecurityToken(
-                      issuer :configuration.GetValue<string>("Issuer"),
+                      issuer: configuration.GetValue<string>("Issuer"),
                       audience: configuration.GetValue<string>("Audience"),
-                      claims: claims, 
+                      claims: claims,
                       expires: DateTime.Now.AddMinutes(120),
                       signingCredentials: credentials);
 
