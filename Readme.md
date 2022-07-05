@@ -4,7 +4,7 @@ This repository contains a simple Remittance API written in C# for Majority.
 
 ## Running the application
 
-To run this application, you will need to install Microsoft .NET 3.1 
+To run this application, you will need to install Microsoft .NET 3.1 .
 Use the User API inorder to generate the token to be used before calling the API.Currently user is fetched from config to avoid a registration api and keep the soln simple.
 
 ## Seeding the database
